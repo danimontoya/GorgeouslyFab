@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">GorgeouslyFab</string>
+    <string name="toolbar_title">GorgeouslyFab</string>
+
+    <!--Reviews-->
+    <string name="fragment_reviews_label">Reviews</string>
+    <string name="reviews_no_results">No reviews added yet!!</string>
 </resources>
