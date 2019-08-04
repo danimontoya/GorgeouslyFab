@@ -17,26 +17,7 @@ interface ReviewsRepository {
 
     class MemoryDisk @Inject constructor() : ReviewsRepository {
 
-        private var reviews = mutableListOf(
-            ReviewEntity(
-                "T-Shirt",
-                "Lacoste",
-                "Nice",
-                "https://picture.bestsecret.com/static/images/990/image_31419288_36_620x757_3.jpg"
-            ),
-            ReviewEntity(
-                "Jumper",
-                "Marc O'Polo",
-                "Amazing",
-                "https://picture.bestsecret.com/static/images/1044/image_31430833_40_620x757_3.jpg"
-            ),
-            ReviewEntity(
-                "Shoes",
-                "Timberland",
-                "Comfortable",
-                "https://picture.bestsecret.com/static/images/1037/image_31456750_75_620x757_0.jpg"
-            )
-        )
+        private var reviews = mutableListOf<ReviewEntity>()
 
         override fun reviews(): Either<Failure, List<Review>> = Either.Right(reviews.map { it.toReview() })
 

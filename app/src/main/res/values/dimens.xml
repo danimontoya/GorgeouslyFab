@@ -6,4 +6,5 @@
 
     <!--Reviews-->
     <dimen name="reviews_padding">8dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>

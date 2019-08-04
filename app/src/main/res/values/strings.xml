@@ -3,6 +3,23 @@
     <string name="toolbar_title">GorgeouslyFab</string>
 
     <!--Reviews-->
-    <string name="fragment_reviews_label">Reviews</string>
+    <string name="fragment_reviews_label">GorgeouslyFab</string>
     <string name="reviews_no_results">No reviews added yet!!</string>
+    <string name="title_activity_main2">Main2Activity</string>
+
+    <!--CreateReview-->
+    <string name="fragment_create_review_label">Create your review</string>
+
+    <!--Designer-->
+    <string name="fragment_designer_label">Designer</string>
+    <string name="designer_hint">Designer</string>
+    <string name="designer_empty">Designer field cannot be empty</string>
+
+    <!--Feel-->
+    <string name="fragment_feel_label">Feel</string>
+    <string name="feel_hint">Feel</string>
+    <string name="feel_empty">Feel field cannot be empty</string>
+
+    <!--Selfie-->
+    <string name="fragment_selfie_label">Selfie</string>
 </resources>

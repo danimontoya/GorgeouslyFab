@@ -3,7 +3,8 @@ package com.assignment.gorgeouslyfab.features.presentation.reviews
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.assignment.gorgeouslyfab.R
 import com.assignment.gorgeouslyfab.core.exception.Failure
 import com.assignment.gorgeouslyfab.core.extension.*
@@ -36,31 +37,70 @@ class ReviewsFragment : BaseFragment() {
 
         viewModel = viewModel(viewModelFactory) {
             observe(reviewList, ::showReviews)
+            observe(reviewCreated, ::showReviewCreated)
             failure(failure, ::showError)
+        }
+    }
+
+    private fun showReviewCreated(isCreated: Boolean?) {
+        isCreated?.let {
+            viewModel.getReviews()
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        recycler_reviews.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = reviewsAdapter
-        }
+        Timber.tag(TAG).d("backStackEntryCount: ${fragmentManager?.backStackEntryCount}")
+        Timber.tag(TAG).d("fragments: ${fragmentManager?.fragments}")
 
-        viewModel.getReviews()
+        if (isFirstTime) {
+            recycler_reviews.apply {
+                layoutManager = GridLayoutManager(context, spanCount(resources.getBoolean(R.bool.isTablet)))
+                adapter = reviewsAdapter
+            }
+
+            fab.setOnClickListener {
+                findNavController().navigate(ReviewsFragmentDirections.actionReviewsFragmentToCreateReviewFragment())
+            }
+
+
+            val review1 = ReviewView(
+                    "T-Shirt",
+                    "Lacoste",
+                    "Nice",
+                    "https://picture.bestsecret.com/static/images/990/image_31419288_36_620x757_3.jpg"
+            )
+            viewModel.createReview(review1)
+            val review2 = ReviewView(
+                    "Jumper",
+                    "Marc O'Polo",
+                    "Amazing",
+                    "https://picture.bestsecret.com/static/images/1044/image_31430833_40_620x757_3.jpg"
+            )
+            viewModel.createReview(review2)
+            val review3 = ReviewView(
+                    "Shoes",
+                    "Timberland",
+                    "Comfortable",
+                    "https://picture.bestsecret.com/static/images/1037/image_31456750_75_620x757_0.jpg"
+            )
+            viewModel.createReview(review3)
+        }
+        //viewModel.getReviews()
+    }
+
+    private fun spanCount(isTablet: Boolean): Int {
+        return if (isTablet) 3 else 2
     }
 
     private fun showReviews(reviewList: List<ReviewView>?) {
         progress_reviews.gone()
         if (reviewList != null && reviewList.isNotEmpty()) {
-            val items = reviewList.map { reviewView ->
-                ReviewItem(reviewView, clickListener = { recipe -> })
-            }
+            val items = reviewList.map { reviewView -> ReviewItem(reviewView, clickListener = { }) }
             reviewsAdapter.clear()
             reviewsAdapter.addAll(items)
             recycler_reviews.visible()
-
         } else {
             notify(getString(R.string.reviews_no_results))
         }

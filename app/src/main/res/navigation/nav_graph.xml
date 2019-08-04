@@ -10,6 +10,53 @@
         android:name="com.assignment.gorgeouslyfab.features.presentation.reviews.ReviewsFragment"
         android:label="@string/fragment_reviews_label"
         tools:layout="@layout/fragment_reviews">
+
+        <action
+            android:id="@+id/action_reviewsFragment_to_createReviewFragment"
+            app:destination="@id/createReviewFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/createReviewFragment"
+        android:name="com.assignment.gorgeouslyfab.features.presentation.createreview.CreateReviewFragment"
+        android:label="@string/fragment_create_review_label"
+        tools:layout="@layout/fragment_create_review">
+        <action
+            android:id="@+id/action_createReviewFragment_to_designerFragment"
+            app:destination="@id/designerFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/designerFragment"
+        android:name="com.assignment.gorgeouslyfab.features.presentation.designer.DesignerFragment"
+        android:label="@string/fragment_designer_label"
+        tools:layout="@layout/fragment_designer">
+        <action
+            android:id="@+id/action_designerFragment_to_feelFragment"
+            app:destination="@id/feelFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/feelFragment"
+        android:name="com.assignment.gorgeouslyfab.features.presentation.feel.FeelFragment"
+        android:label="@string/fragment_feel_label"
+        tools:layout="@layout/fragment_feel">
+        <action
+            android:id="@+id/action_feelFragment_to_selfieFragment"
+            app:destination="@id/selfieFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/selfieFragment"
+        android:name="com.assignment.gorgeouslyfab.features.presentation.selfie.SelfieFragment"
+        android:label="@string/fragment_selfie_label"
+        tools:layout="@layout/fragment_selfie">
+        <action
+            android:id="@+id/action_selfieFragment_to_reviewsFragment"
+            app:destination="@id/reviewsFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true"/>
     </fragment>
 
 </navigation>
