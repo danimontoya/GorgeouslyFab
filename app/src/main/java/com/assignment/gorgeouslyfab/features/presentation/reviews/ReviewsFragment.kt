@@ -10,9 +10,12 @@ import com.assignment.gorgeouslyfab.core.exception.Failure
 import com.assignment.gorgeouslyfab.core.extension.*
 import com.assignment.gorgeouslyfab.core.platform.BaseFragment
 import com.assignment.gorgeouslyfab.features.presentation.model.ReviewView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.fragment_reviews.*
+import kotlinx.android.synthetic.main.layout_row_review.*
 import timber.log.Timber
 
 /**
@@ -33,11 +36,9 @@ class ReviewsFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         appComponent.inject(this)
-        setHasOptionsMenu(true)
 
         viewModel = viewModel(viewModelFactory) {
             observe(reviewList, ::showReviews)
-            observe(reviewCreated, ::showReviewCreated)
             failure(failure, ::showError)
         }
     }
@@ -57,52 +58,33 @@ class ReviewsFragment : BaseFragment() {
             fab.setOnClickListener {
                 findNavController().navigate(ReviewsFragmentDirections.actionReviewsFragmentToCreateReviewFragment())
             }
-
-
-            val review1 = ReviewView(
-                    "T-Shirt",
-                    "Lacoste",
-                    "Nice",
-                    "https://picture.bestsecret.com/static/images/990/image_31419288_36_620x757_3.jpg"
-            )
-            viewModel.createReview(review1)
-            val review2 = ReviewView(
-                    "Jumper",
-                    "Marc O'Polo",
-                    "Amazing",
-                    "https://picture.bestsecret.com/static/images/1044/image_31430833_40_620x757_3.jpg"
-            )
-            viewModel.createReview(review2)
-            val review3 = ReviewView(
-                    "Shoes",
-                    "Timberland",
-                    "Comfortable",
-                    "https://picture.bestsecret.com/static/images/1037/image_31456750_75_620x757_0.jpg"
-            )
-            viewModel.createReview(review3)
         }
-        //viewModel.getReviews()
+        viewModel.getReviews()
     }
 
-    private fun spanCount(isTablet: Boolean): Int {
-        return if (isTablet) 3 else 2
-    }
+    private fun spanCount(isTablet: Boolean) = if (isTablet) 4 else 2
 
     private fun showReviews(reviewList: List<ReviewView>?) {
         progress_reviews.gone()
+        empty_reviews.gone()
         if (reviewList != null && reviewList.isNotEmpty()) {
             val items = reviewList.map { reviewView -> ReviewItem(reviewView, clickListener = { }) }
             reviewsAdapter.clear()
             reviewsAdapter.addAll(items)
             recycler_reviews.visible()
         } else {
+            empty_reviews.visible()
+            context?.let {
+                Glide.with(it)
+                        .load(R.mipmap.ic_selfie_time)
+                        .error(Glide.with(it).load(R.mipmap.ic_review_viewholder))
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(review_image)
+            }
+            review_garment.text = getString(R.string.empty_review_garment)
+            review_feel.text = getString(R.string.empty_review_feels)
+            review_designer.text = getString(R.string.empty_review_designer)
             notify(getString(R.string.reviews_no_results))
-        }
-    }
-
-    private fun showReviewCreated(isCreated: Boolean?) {
-        isCreated?.let {
-            viewModel.getReviews()
         }
     }
 

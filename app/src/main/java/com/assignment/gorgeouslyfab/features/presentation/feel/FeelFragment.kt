@@ -10,14 +10,23 @@ import com.assignment.gorgeouslyfab.R
 import com.assignment.gorgeouslyfab.core.extension.gone
 import com.assignment.gorgeouslyfab.core.extension.visible
 import com.assignment.gorgeouslyfab.core.platform.BaseFragment
+import com.assignment.gorgeouslyfab.features.presentation.createreview.CreateReviewListener
+import com.assignment.gorgeouslyfab.features.presentation.feel.FeelFragmentArgs.fromBundle
+import com.assignment.gorgeouslyfab.features.presentation.model.ReviewView
 import kotlinx.android.synthetic.main.fragment_feel.*
 
 /**
  * Created by danieh on 04/08/2019.
  */
-class FeelFragment : BaseFragment(), TextWatcher {
+class FeelFragment : BaseFragment(), TextWatcher, CreateReviewListener {
+
+    override fun getData() = feel
 
     override fun layoutId() = R.layout.fragment_feel
+
+    private val review by lazy {
+        arguments?.let { fromBundle(it).review }
+    }
 
     private var feel: String = ""
 
@@ -48,7 +57,11 @@ class FeelFragment : BaseFragment(), TextWatcher {
             if (feel.isEmpty()) {
                 feel_edit.error = getString(R.string.feel_empty)
             } else {
-                findNavController().navigate(FeelFragmentDirections.actionFeelFragmentToSelfieFragment())
+                review?.feel = feel
+                val navDirections = FeelFragmentDirections.actionFeelFragmentToSelfieFragment()
+                navDirections.setReview(review)
+
+                findNavController().navigate(navDirections)
             }
         }
     }

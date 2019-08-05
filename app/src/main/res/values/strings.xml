@@ -4,8 +4,13 @@
 
     <!--Reviews-->
     <string name="fragment_reviews_label">GorgeouslyFab</string>
-    <string name="reviews_no_results">No reviews added yet!!</string>
-    <string name="title_activity_main2">Main2Activity</string>
+    <string name="reviews_no_results">Add your first review 👉🏽👉🏽👉🏽👉🏽👉🏽👉🏽</string>
+    <string name="empty_review_garment">Coats</string>
+    <string name="empty_review_feels">Esta chaqueta con capucha de edición limitada se inspira en la serie de Netflix
+        "La casa de papel". El diseño reversible se confecciona en nailon rojo con logos estampados y bordados, y un
+        aplique grande en el revés.
+    </string>
+    <string name="empty_review_designer">By Diesel</string>
 
     <!--CreateReview-->
     <string name="fragment_create_review_label">Create your review</string>
@@ -24,4 +29,6 @@
     <string name="fragment_selfie_label">…and selfie time!</string>
     <string name="selfie_button">Take a shoot</string>
     <string name="selfie_error">Error capturing your shoot, please try again 👌🏼</string>
+    <string name="selfie_permissions_write_external_storage">Write external storage permission is required…</string>
+    <string name="selfie_permissions_open_settings">Open settings</string>
 </resources>

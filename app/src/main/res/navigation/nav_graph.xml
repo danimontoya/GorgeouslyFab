@@ -31,6 +31,13 @@
         android:name="com.assignment.gorgeouslyfab.features.presentation.designer.DesignerFragment"
         android:label="@string/fragment_designer_label"
         tools:layout="@layout/fragment_designer">
+
+        <argument
+            android:name="review"
+            android:defaultValue="@null"
+            app:argType="com.assignment.gorgeouslyfab.features.presentation.model.ReviewView"
+            app:nullable="true"/>
+
         <action
             android:id="@+id/action_designerFragment_to_feelFragment"
             app:destination="@id/feelFragment"/>
@@ -41,6 +48,13 @@
         android:name="com.assignment.gorgeouslyfab.features.presentation.feel.FeelFragment"
         android:label="@string/fragment_feel_label"
         tools:layout="@layout/fragment_feel">
+
+        <argument
+                android:name="review"
+                android:defaultValue="@null"
+                app:argType="com.assignment.gorgeouslyfab.features.presentation.model.ReviewView"
+                app:nullable="true"/>
+
         <action
             android:id="@+id/action_feelFragment_to_selfieFragment"
             app:destination="@id/selfieFragment"/>
@@ -51,6 +65,13 @@
         android:name="com.assignment.gorgeouslyfab.features.presentation.selfie.SelfieFragment"
         android:label="@string/fragment_selfie_label"
         tools:layout="@layout/fragment_selfie">
+
+        <argument
+                android:name="review"
+                android:defaultValue="@null"
+                app:argType="com.assignment.gorgeouslyfab.features.presentation.model.ReviewView"
+                app:nullable="true"/>
+
         <action
             android:id="@+id/action_selfieFragment_to_reviewsFragment"
             app:destination="@id/reviewsFragment"
