@@ -17,6 +17,10 @@ import kotlinx.android.synthetic.main.fragment_create_review.*
  */
 class CreateReviewFragment : BaseFragment() {
 
+    companion object {
+        private val TAG = CreateReviewFragment::class.java.simpleName
+    }
+
     override fun layoutId() = R.layout.fragment_create_review
 
     private val garmentAdapter = GroupAdapter<ViewHolder>()
@@ -31,8 +35,9 @@ class CreateReviewFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (isFirstTime)
+        if (isFirstTime) {
             setupRecyclerView()
+        }
 
         garment_next_button.setOnClickListener {
             if (!isTablet) {

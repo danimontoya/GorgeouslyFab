@@ -42,12 +42,6 @@ class ReviewsFragment : BaseFragment() {
         }
     }
 
-    private fun showReviewCreated(isCreated: Boolean?) {
-        isCreated?.let {
-            viewModel.getReviews()
-        }
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -103,6 +97,12 @@ class ReviewsFragment : BaseFragment() {
             recycler_reviews.visible()
         } else {
             notify(getString(R.string.reviews_no_results))
+        }
+    }
+
+    private fun showReviewCreated(isCreated: Boolean?) {
+        isCreated?.let {
+            viewModel.getReviews()
         }
     }
 

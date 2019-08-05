@@ -1,87 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/create_review_root"
+    android:id="@+id/create_review_scroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clipChildren="false"
+    android:clipToPadding="false"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".features.presentation.createreview.CreateReviewFragment">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/text"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@android:color/holo_blue_dark"
-        android:gravity="center"
-        android:text="CreateReviewFragmentTablet"
-        android:textSize="25sp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_garments"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/create_review_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        android:orientation="horizontal"
-        android:paddingTop="@dimen/reviews_padding"
-        android:paddingBottom="@dimen/reviews_padding"
-        android:scrollbars="horizontal"
-        android:transitionGroup="false"
-        android:visibility="gone"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@id/designer_container"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/layout_row_garment"
-        tools:visibility="visible"/>
+        android:layout_height="match_parent">
 
-    <fragment
-        android:id="@+id/designer_container"
-        android:name="com.assignment.gorgeouslyfab.features.presentation.designer.DesignerFragment"
-        android:layout_width="0dp"
-        android:layout_height="100dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recycler_garments"
-        tools:layout="@layout/fragment_designer"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_garments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/reviews_padding"
+            android:paddingBottom="@dimen/reviews_padding"
+            android:scrollbars="horizontal"
+            android:transitionGroup="false"
+            android:visibility="gone"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@id/designer_container"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/layout_row_garment"
+            tools:visibility="visible"/>
 
-    <fragment
-        android:id="@+id/feel_container"
-        android:name="com.assignment.gorgeouslyfab.features.presentation.feel.FeelFragment"
-        android:layout_width="0dp"
-        android:layout_height="100dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/designer_container"
-        tools:layout="@layout/fragment_feel"/>
+        <fragment
+            android:id="@+id/designer_container"
+            android:name="com.assignment.gorgeouslyfab.features.presentation.designer.DesignerFragment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recycler_garments"
+            tools:layout="@layout/fragment_designer"/>
 
-    <fragment
-        android:id="@+id/selfie_container"
-        android:name="com.assignment.gorgeouslyfab.features.presentation.selfie.SelfieFragment"
-        android:layout_width="0dp"
-        android:layout_height="100dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/feel_container"
-        tools:layout="@layout/fragment_selfie"/>
+        <fragment
+            android:id="@+id/feel_container"
+            android:name="com.assignment.gorgeouslyfab.features.presentation.feel.FeelFragment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/designer_container"
+            tools:layout="@layout/fragment_feel"/>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/garment_next_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin"
-        android:clickable="false"
-        android:tint="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@android:drawable/ic_input_add"/>
+        <fragment
+            android:id="@+id/selfie_container"
+            android:name="com.assignment.gorgeouslyfab.features.presentation.selfie.SelfieFragment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/feel_container"
+            tools:layout="@layout/fragment_selfie"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/garment_next_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/fab_margin"
+            android:clickable="false"
+            android:tint="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@android:drawable/ic_input_add"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

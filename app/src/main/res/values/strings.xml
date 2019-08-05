@@ -21,5 +21,7 @@
     <string name="feel_empty">Feel field cannot be empty</string>
 
     <!--Selfie-->
-    <string name="fragment_selfie_label">Selfie</string>
+    <string name="fragment_selfie_label">…and selfie time!</string>
+    <string name="selfie_button">Take a shoot</string>
+    <string name="selfie_error">Error capturing your shoot, please try again 👌🏼</string>
 </resources>
