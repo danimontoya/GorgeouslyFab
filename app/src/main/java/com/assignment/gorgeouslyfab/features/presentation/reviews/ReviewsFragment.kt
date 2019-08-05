@@ -77,7 +77,7 @@ class ReviewsFragment : BaseFragment() {
             context?.let {
                 Glide.with(it)
                         .load(R.mipmap.ic_selfie_time)
-                        .error(Glide.with(it).load(R.mipmap.ic_review_viewholder))
+                        .error(Glide.with(it).load(R.mipmap.ic_selfie_time_viewholder))
                         .transition(DrawableTransitionOptions.withCrossFade())
                         .into(review_image)
             }

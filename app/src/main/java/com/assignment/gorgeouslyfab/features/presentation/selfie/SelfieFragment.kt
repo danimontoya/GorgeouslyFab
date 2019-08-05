@@ -104,7 +104,7 @@ class SelfieFragment : BaseFragment(), CreateReviewListener {
                 Glide.with(it)
                     .load(imageUri)
                     .apply(RequestOptions.bitmapTransform(RoundedCorners(24)))
-                    .error(Glide.with(it).load(R.mipmap.ic_review_viewholder))
+                    .error(Glide.with(it).load(R.mipmap.ic_selfie_time_viewholder))
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(selfi_image_container)
             }
@@ -113,7 +113,7 @@ class SelfieFragment : BaseFragment(), CreateReviewListener {
                 Glide.with(it)
                     .load(R.mipmap.ic_selfie_time)
                     .apply(RequestOptions.bitmapTransform(RoundedCorners(24)))
-                    .error(Glide.with(it).load(R.mipmap.ic_review_viewholder))
+                    .error(Glide.with(it).load(R.mipmap.ic_selfie_time_viewholder))
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(selfi_image_container)
             }
@@ -198,7 +198,7 @@ class SelfieFragment : BaseFragment(), CreateReviewListener {
                     Glide.with(it)
                         .load(bitmap)
                         .apply(RequestOptions.bitmapTransform(RoundedCorners(24)))
-                        .error(Glide.with(it).load(R.mipmap.ic_review_viewholder))
+                        .error(Glide.with(it).load(R.mipmap.ic_selfie_time_viewholder))
                         .transition(DrawableTransitionOptions.withCrossFade())
                         .into(selfi_image_container)
                     selfie_create_review.isEnabled = true

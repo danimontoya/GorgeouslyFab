@@ -25,12 +25,12 @@
             android:layout_width="0dp"
             android:layout_height="200dp"
             android:background="@color/white_light"
-            android:scaleType="fitCenter"
+            android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="spread"
-            app:srcCompat="@mipmap/ic_review_viewholder"/>
+            app:srcCompat="@mipmap/ic_selfie_time_viewholder"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/review_garment"

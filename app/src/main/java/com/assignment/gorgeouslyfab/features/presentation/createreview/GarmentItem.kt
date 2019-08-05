@@ -25,7 +25,7 @@ class GarmentItem(
 
             Glide.with(itemView.context)
                     .load(garmentType.resource)
-                    .error(Glide.with(itemView.context).load(R.mipmap.ic_review_viewholder))
+                    .error(Glide.with(itemView.context).load(R.mipmap.ic_selfie_time_viewholder))
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(itemView.review_garment_image)
             itemView.review_garment_type.text = garmentType.type

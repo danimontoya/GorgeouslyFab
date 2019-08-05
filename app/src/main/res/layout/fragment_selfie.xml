@@ -14,7 +14,7 @@
         android:layout_width="300dp"
         android:layout_height="400dp"
         android:layout_margin="@dimen/activity_horizontal_margin"
-        android:scaleType="centerInside"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toTopOf="@id/selfie_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
