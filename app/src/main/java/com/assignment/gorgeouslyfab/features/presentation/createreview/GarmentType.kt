@@ -12,13 +12,13 @@ data class GarmentType(val type: String, val resource: Int) : Parcelable {
 
     companion object {
         private val types = listOf(
-            GarmentType("Trousers", R.mipmap.ic_garment_trousers),
-            GarmentType("Jeans", R.mipmap.ic_garment_jeans),
-            GarmentType("Shirts", R.mipmap.ic_garment_shirts),
-            GarmentType("T-Shirts", R.mipmap.ic_garment_tshirt),
-            GarmentType("Jumpers", R.mipmap.ic_garment_jumper),
-            GarmentType("Coats", R.mipmap.ic_garment_coat),
-            GarmentType("Shoes", R.mipmap.ic_garment_shoes)
+                GarmentType("Trousers", R.mipmap.ic_garment_trousers),
+                GarmentType("Jeans", R.mipmap.ic_garment_jeans),
+                GarmentType("Shirts", R.mipmap.ic_garment_shirts),
+                GarmentType("T-Shirts", R.mipmap.ic_garment_tshirt),
+                GarmentType("Jumpers", R.mipmap.ic_garment_jumper),
+                GarmentType("Coats", R.mipmap.ic_garment_coat),
+                GarmentType("Shoes", R.mipmap.ic_garment_shoes)
         )
 
         fun getGarmentTypes() = types

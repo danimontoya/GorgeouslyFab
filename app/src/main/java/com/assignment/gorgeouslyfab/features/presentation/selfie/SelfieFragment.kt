@@ -231,7 +231,7 @@ class SelfieFragment : BaseFragment(), CreateReviewListener {
         val c = activity?.contentResolver?.query(uri, columns, null, null, null)
         if (c == null) {
             Timber.tag(TAG).d("Could not get cursor")
-            return img;
+            return img
         }
 
         c.moveToFirst()

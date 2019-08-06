@@ -10,10 +10,10 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 data class ReviewView(
-    var garment: String = "",
-    var designer: String= "",
-    var feel: String = "",
-    var picture: Uri = Uri.EMPTY
+        var garment: String = "",
+        var designer: String = "",
+        var feel: String = "",
+        var picture: Uri = Uri.EMPTY
 ) : Parcelable {
 
     fun toReview() = Review(garment, designer, feel, picture)

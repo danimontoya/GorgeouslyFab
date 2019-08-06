@@ -5,8 +5,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider.Factory
 import androidx.lifecycle.ViewModelProviders
-import com.assignment.gorgeouslyfab.features.presentation.MainActivity
 import com.assignment.gorgeouslyfab.core.platform.BaseFragment
+import com.assignment.gorgeouslyfab.features.presentation.MainActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 /**

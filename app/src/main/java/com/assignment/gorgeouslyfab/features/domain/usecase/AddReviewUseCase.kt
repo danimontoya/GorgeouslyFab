@@ -9,7 +9,7 @@ import javax.inject.Inject
  * Created by danieh on 04/08/2019.
  */
 class AddReviewUseCase @Inject constructor(private val reviewsRepository: ReviewsRepository) :
-    UseCase<Boolean, AddReviewUseCase.Params>() {
+        UseCase<Boolean, AddReviewUseCase.Params>() {
 
     override suspend fun run(params: Params) = reviewsRepository.addReview(params.reviewView.toReview())
 

@@ -11,7 +11,7 @@ import timber.log.Timber
 /**
  * Created by danieh on 04/08/2019.
  */
-class GorgeouslyFabApp  : Application() {
+class GorgeouslyFabApp : Application() {
 
     companion object {
         var appContext: GorgeouslyFabApp? = null
@@ -19,10 +19,10 @@ class GorgeouslyFabApp  : Application() {
 
     val appComponent: ApplicationComponent by lazy(mode = LazyThreadSafetyMode.NONE) {
         DaggerApplicationComponent
-            .builder()
-            .applicationModule(ApplicationModule(this))
-            .dataModule(DataModule())
-            .build()
+                .builder()
+                .applicationModule(ApplicationModule(this))
+                .dataModule(DataModule())
+                .build()
     }
 
     override fun onCreate() {
