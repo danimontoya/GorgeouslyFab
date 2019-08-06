@@ -12,7 +12,6 @@ import com.assignment.gorgeouslyfab.core.extension.visible
 import com.assignment.gorgeouslyfab.core.platform.BaseFragment
 import com.assignment.gorgeouslyfab.features.presentation.createreview.CreateReviewListener
 import com.assignment.gorgeouslyfab.features.presentation.feel.FeelFragmentArgs.fromBundle
-import com.assignment.gorgeouslyfab.features.presentation.model.ReviewView
 import kotlinx.android.synthetic.main.fragment_feel.*
 
 /**
@@ -38,16 +37,17 @@ class FeelFragment : BaseFragment(), TextWatcher, CreateReviewListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (isFirstTime) {
-            if (!isTablet) {
-                feel_next_button.visible()
-                feel_root.apply {
-                    layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
-                }
-            } else {
+        when {
+            isTablet -> {
                 feel_next_button.gone()
                 feel_root.apply {
                     layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT)
+                }
+            }
+            else -> {
+                feel_next_button.visible()
+                feel_root.apply {
+                    layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
                 }
             }
         }

@@ -49,16 +49,15 @@ class ReviewsFragment : BaseFragment() {
         Timber.tag(TAG).d("backStackEntryCount: ${fragmentManager?.backStackEntryCount}")
         Timber.tag(TAG).d("fragments: ${fragmentManager?.fragments}")
 
-        if (isFirstTime) {
-            recycler_reviews.apply {
-                layoutManager = GridLayoutManager(context, spanCount(resources.getBoolean(R.bool.isTablet)))
-                adapter = reviewsAdapter
-            }
-
-            fab.setOnClickListener {
-                findNavController().navigate(ReviewsFragmentDirections.actionReviewsFragmentToCreateReviewFragment())
-            }
+        recycler_reviews.apply {
+            layoutManager = GridLayoutManager(context, spanCount(resources.getBoolean(R.bool.isTablet)))
+            adapter = reviewsAdapter
         }
+
+        fab.setOnClickListener {
+            findNavController().navigate(ReviewsFragmentDirections.actionReviewsFragmentToCreateReviewFragment())
+        }
+
         viewModel.getReviews()
     }
 
@@ -76,7 +75,7 @@ class ReviewsFragment : BaseFragment() {
             empty_reviews.visible()
             context?.let {
                 Glide.with(it)
-                        .load(R.mipmap.ic_selfie_time)
+                        .load(R.mipmap.ic_selfie_time_viewholder)
                         .error(Glide.with(it).load(R.mipmap.ic_selfie_time_viewholder))
                         .transition(DrawableTransitionOptions.withCrossFade())
                         .into(review_image)

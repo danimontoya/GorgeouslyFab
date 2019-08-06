@@ -23,7 +23,6 @@ abstract class BaseFragment : Fragment() {
     abstract fun layoutId(): Int
 
     var isTablet = false
-    var isFirstTime = true
 
     val appComponent: ApplicationComponent by lazy(mode = LazyThreadSafetyMode.NONE) {
         (activity?.application as GorgeouslyFabApp).appComponent
@@ -32,19 +31,12 @@ abstract class BaseFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    var fragmentView: View? = null
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        if (fragmentView == null) {
-            fragmentView = inflater.inflate(layoutId(), container, false)
-        } else {
-            isFirstTime = false
-        }
-        return fragmentView!!
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
+            inflater.inflate(layoutId(), container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         isTablet = resources.getBoolean(R.bool.isTablet)
         setHasOptionsMenu(true)
     }

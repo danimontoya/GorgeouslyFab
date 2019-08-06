@@ -29,6 +29,8 @@ class CreateReviewFragment : BaseFragment() {
 
     companion object {
         private val TAG = CreateReviewFragment::class.java.simpleName
+
+        private const val GARMENT_SELECTED = "garment_selected"
     }
 
     override fun layoutId() = R.layout.fragment_create_review
@@ -39,11 +41,15 @@ class CreateReviewFragment : BaseFragment() {
 
     private var childFragments: MutableList<Fragment>? = null
 
-    private var garmentTypeSelected: GarmentType? = null
+    private var garmentSelected: GarmentType? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         appComponent.inject(this)
+
+        savedInstanceState?.let {
+            garmentSelected = savedInstanceState.getParcelable(GARMENT_SELECTED)
+        }
 
         viewModel = viewModel(viewModelFactory) {
             observe(reviewCreated, ::showReviewCreated)
@@ -54,26 +60,24 @@ class CreateReviewFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (isFirstTime) {
-            setupRecyclerView()
-        }
-
         when {
             isTablet -> {
                 childFragments = childFragmentManager.fragments
             }
         }
 
+        setupRecyclerView()
+
         garment_next_button.setOnClickListener {
             if (!isTablet) {
-                val reviewView = ReviewView(garment = garmentTypeSelected?.type.toString())
+                val reviewView = ReviewView(garment = garmentSelected?.type.toString())
                 val navDirections = CreateReviewFragmentDirections.actionCreateReviewFragmentToDesignerFragment()
                 navDirections.setReview(reviewView)
 
                 findNavController().navigate(navDirections)
 
             } else {
-                val garment = garmentTypeSelected?.type.toString()
+                val garment = garmentSelected?.type.toString()
                 val designer = getDesigner()
                 val feel = getFeel()
                 val selfie = getSelfie()
@@ -89,7 +93,8 @@ class CreateReviewFragment : BaseFragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putParcelable("garment_selected", garmentTypeSelected)
+        outState.putParcelable(GARMENT_SELECTED, garmentSelected)
+        Timber.tag(TAG).d("onSaveInstanceState: $outState")
     }
 
     private fun setupRecyclerView() {
@@ -103,8 +108,13 @@ class CreateReviewFragment : BaseFragment() {
             adapter = garmentAdapter
         }
 
+        garmentAdapter.clear()
         garmentAdapter.addAll(GarmentType.getGarmentTypes().map {
-            GarmentItem(it, clickListener = { garmentItemClicked, position ->
+            var isSelected = false
+            if (garmentSelected != null && garmentSelected?.type == it.type) {
+                isSelected = true
+            }
+            GarmentItem(it, isSelected, clickListener = { garmentItemClicked, position ->
                 for (i in 0 until garmentAdapter.itemCount) {
                     val garmentItem = garmentAdapter.getItem(i) as GarmentItem
                     if (i != position) garmentItem.isSelected = false
@@ -112,8 +122,8 @@ class CreateReviewFragment : BaseFragment() {
                 garmentAdapter.notifyDataSetChanged()
 
                 val selected = (garmentAdapter.getItem(position) as GarmentItem).isSelected
-                garmentTypeSelected = if (selected) garmentItemClicked else null
-                garment_next_button.isEnabled = garmentTypeSelected != null
+                garmentSelected = if (selected) garmentItemClicked else null
+                garment_next_button.isEnabled = garmentSelected != null
             })
         })
         recycler_garments.visible()

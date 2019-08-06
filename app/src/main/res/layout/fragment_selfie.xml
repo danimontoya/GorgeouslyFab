@@ -9,28 +9,45 @@
     android:clipChildren="false"
     tools:context=".features.presentation.selfie.SelfieFragment">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/selfi_image_container"
-        android:layout_width="300dp"
-        android:layout_height="400dp"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:scaleType="centerCrop"
-        app:layout_constraintBottom_toTopOf="@id/selfie_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/ic_selfie_time"/>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/selfie_button"
-        android:layout_width="wrap_content"
+    <ScrollView
+        android:id="@+id/selfie_scroll_root"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:text="@string/selfie_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/selfi_image_container"/>
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/selfie_scroll_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/selfi_image_container"
+                android:layout_width="300dp"
+                android:layout_height="400dp"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toTopOf="@id/selfie_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@mipmap/ic_selfie_time"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/selfie_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:text="@string/selfie_button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/selfi_image_container"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/selfie_create_review"

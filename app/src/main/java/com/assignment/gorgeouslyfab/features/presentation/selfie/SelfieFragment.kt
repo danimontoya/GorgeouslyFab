@@ -13,6 +13,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.ScrollView
 import androidx.appcompat.app.AlertDialog
 import androidx.navigation.fragment.findNavController
 import com.assignment.gorgeouslyfab.R
@@ -22,6 +23,7 @@ import com.assignment.gorgeouslyfab.core.platform.BaseFragment
 import com.assignment.gorgeouslyfab.features.presentation.createreview.CreateReviewListener
 import com.assignment.gorgeouslyfab.features.presentation.selfie.SelfieFragmentArgs.fromBundle
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
@@ -44,6 +46,7 @@ class SelfieFragment : BaseFragment(), CreateReviewListener {
         private val TAG = SelfieFragment::class.java.simpleName
 
         private const val REQUEST_CAPTURE_IMAGE = 1234
+        private const val PICTURE_URI = "picture_uri"
     }
 
     override fun getData() = ""
@@ -66,6 +69,10 @@ class SelfieFragment : BaseFragment(), CreateReviewListener {
         super.onCreate(savedInstanceState)
         appComponent.inject(this)
 
+        savedInstanceState?.let {
+            imageUri = savedInstanceState.getParcelable(PICTURE_URI)
+        }
+
         viewModel = viewModel(viewModelFactory) {
             observe(reviewCreated, ::showReviewCreated)
             failure(failure, ::showError)
@@ -75,47 +82,42 @@ class SelfieFragment : BaseFragment(), CreateReviewListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Timber.tag(TAG).d("backStackEntryCount: ${fragmentManager?.backStackEntryCount}")
-        Timber.tag(TAG).d("fragments: ${fragmentManager?.fragments}")
-
-        if (isFirstTime) {
-            if (!isTablet) {
-                selfie_create_review.visible()
-                selfie_root.apply {
-                    layoutParams = FrameLayout.LayoutParams(
-                        FrameLayout.LayoutParams.MATCH_PARENT,
-                        FrameLayout.LayoutParams.MATCH_PARENT
-                    )
-                }
-            } else {
+        when {
+            isTablet -> {
                 selfie_create_review.gone()
                 selfie_root.apply {
-                    layoutParams = FrameLayout.LayoutParams(
-                        FrameLayout.LayoutParams.MATCH_PARENT,
-                        FrameLayout.LayoutParams.WRAP_CONTENT
-                    )
+                    layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT)
                 }
             }
-
+            else -> {
+                selfie_create_review.visible()
+                selfie_root.apply {
+                    layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
+                }
+            }
         }
 
         if (imageUri != null) {
             context?.let {
+                val requestOptions = RequestOptions()
+                requestOptions.transform(CenterCrop(), RoundedCorners(24))
                 Glide.with(it)
-                    .load(imageUri)
-                    .apply(RequestOptions.bitmapTransform(RoundedCorners(24)))
-                    .error(Glide.with(it).load(R.mipmap.ic_selfie_time_viewholder))
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .into(selfi_image_container)
+                        .load(imageUri)
+                        .apply(requestOptions)
+                        .error(Glide.with(it).load(R.mipmap.ic_selfie_time_viewholder))
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(selfi_image_container)
             }
         } else {
             context?.let {
+                val requestOptions = RequestOptions()
+                requestOptions.transform(CenterCrop(), RoundedCorners(24))
                 Glide.with(it)
-                    .load(R.mipmap.ic_selfie_time)
-                    .apply(RequestOptions.bitmapTransform(RoundedCorners(24)))
-                    .error(Glide.with(it).load(R.mipmap.ic_selfie_time_viewholder))
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .into(selfi_image_container)
+                        .load(R.mipmap.ic_selfie_time)
+                        .apply(requestOptions)
+                        .error(Glide.with(it).load(R.mipmap.ic_selfie_time_viewholder))
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(selfi_image_container)
             }
         }
 
@@ -123,15 +125,30 @@ class SelfieFragment : BaseFragment(), CreateReviewListener {
             openCamera()
         }
 
-        selfie_create_review.isEnabled = imageUri != null
         selfie_create_review.setOnClickListener {
-            review?.let { viewModel.createReview(it) }
+            review?.let {
+                if (Uri.EMPTY != it.picture) {
+                    viewModel.createReview(it)
+                } else {
+                    notify("Please complete your review before creating it!")
+                }
+            }
         }
+
+        selfie_scroll_root.postDelayed({
+            selfie_scroll_root.scrollToBottom()
+        }, 300L)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelable(PICTURE_URI, imageUri)
+        Timber.tag(TAG).d("onSaveInstanceState: $outState")
     }
 
     private fun openCamera() {
         Dexter.withActivity(activity).withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE).withListener(object :
-            PermissionListener {
+                PermissionListener {
             override fun onPermissionGranted(response: PermissionGrantedResponse?) {
                 isWriteExternalStoragePermissionGranted = true
                 openCameraIntent()
@@ -178,13 +195,12 @@ class SelfieFragment : BaseFragment(), CreateReviewListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         Timber.tag(TAG)
-            .d("onActivityResult: requestCode=$requestCode resultCode=$resultCode data=${data?.extras.toString()}")
+                .d("onActivityResult: requestCode=$requestCode resultCode=$resultCode data=${data?.extras.toString()}")
 
         if (requestCode == REQUEST_CAPTURE_IMAGE && resultCode == RESULT_OK) {
 
             if (imageUri == null) {
                 notify(getString(R.string.selfie_error))
-                selfie_create_review.isEnabled = false
                 return
             }
             val uri: Uri = imageUri!!
@@ -195,17 +211,17 @@ class SelfieFragment : BaseFragment(), CreateReviewListener {
             if (img != null) {
                 val bitmap = pictureTurn(img, uri)
                 context?.let {
+                    val requestOptions = RequestOptions()
+                    requestOptions.transform(CenterCrop(), RoundedCorners(24))
                     Glide.with(it)
-                        .load(bitmap)
-                        .apply(RequestOptions.bitmapTransform(RoundedCorners(24)))
-                        .error(Glide.with(it).load(R.mipmap.ic_selfie_time_viewholder))
-                        .transition(DrawableTransitionOptions.withCrossFade())
-                        .into(selfi_image_container)
-                    selfie_create_review.isEnabled = true
+                            .load(bitmap)
+                            .apply(requestOptions)
+                            .error(Glide.with(it).load(R.mipmap.ic_selfie_time_viewholder))
+                            .transition(DrawableTransitionOptions.withCrossFade())
+                            .into(selfi_image_container)
                 }
             } else {
                 notify(getString(R.string.selfie_error))
-                selfie_create_review.isEnabled = false
             }
         }
     }
@@ -227,12 +243,12 @@ class SelfieFragment : BaseFragment(), CreateReviewListener {
 
         val exifInterface = ExifInterface(c.getString(0)!!)
         val orientation: Float =
-            when (exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED)) {
-                ExifInterface.ORIENTATION_ROTATE_90 -> 90f
-                ExifInterface.ORIENTATION_ROTATE_180 -> 180f
-                ExifInterface.ORIENTATION_ROTATE_270 -> 270f
-                else -> 0f
-            }
+                when (exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED)) {
+                    ExifInterface.ORIENTATION_ROTATE_90 -> 90f
+                    ExifInterface.ORIENTATION_ROTATE_180 -> 180f
+                    ExifInterface.ORIENTATION_ROTATE_270 -> 270f
+                    else -> 0f
+                }
         c.close()
 
         val mat: Matrix? = Matrix()
@@ -254,4 +270,11 @@ class SelfieFragment : BaseFragment(), CreateReviewListener {
             }
         }
     }
+}
+
+fun ScrollView.scrollToBottom() {
+    val lastChild = getChildAt(childCount - 1)
+    val bottom = lastChild.bottom + paddingBottom
+    val delta = bottom - (scrollY + height)
+    smoothScrollBy(0, delta)
 }
