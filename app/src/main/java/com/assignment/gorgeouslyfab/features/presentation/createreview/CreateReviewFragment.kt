@@ -142,11 +142,8 @@ class CreateReviewFragment : BaseFragment() {
     }
 
     private fun showError(failure: Failure?) {
-        //progress_reviews.gone()
         when (failure) {
-            is Failure.BaseFailure -> {
-                Timber.tag(TAG).d("showError")
-            }
+            is Failure.ErrorCreatingReview -> { Timber.tag(TAG).d("showError") }
         }
     }
 }

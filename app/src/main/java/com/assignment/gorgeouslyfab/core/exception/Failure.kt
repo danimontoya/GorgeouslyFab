@@ -6,4 +6,6 @@ package com.assignment.gorgeouslyfab.core.exception
 sealed class Failure {
 
     abstract class BaseFailure : Failure()
+
+    class ErrorCreatingReview : BaseFailure()
 }

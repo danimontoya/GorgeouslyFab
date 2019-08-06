@@ -8,6 +8,8 @@ apply plugin: 'kotlin-kapt'
 
 apply plugin: 'androidx.navigation.safeargs'
 
+apply plugin: 'de.mobilej.unmock'
+
 android {
     compileSdkVersion 28
 
@@ -47,6 +49,10 @@ androidExtensions {
 
 ext {
     lifecycle_version = '2.0.0'
+}
+
+unMock {
+    keep "android.net.Uri"
 }
 
 dependencies {
@@ -106,7 +112,7 @@ dependencies {
     // Test
     testImplementation 'junit:junit:4.12'
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
-    testImplementation "org.robolectric:robolectric:4.2"
+    testImplementation "org.robolectric:robolectric:3.8"
     testImplementation 'org.mockito:mockito-core:2.22.0'
     testImplementation 'org.mockito:mockito-inline:2.22.0'
     testImplementation "android.arch.core:core-testing:1.1.1"
